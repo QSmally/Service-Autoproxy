@@ -3,7 +3,7 @@ version: "3"
 
 services:
   # nginx
-  #   Main frontend proxy service.
+  #   Proxy service frontend.
   nginx:
     restart: always
     image: nginx
@@ -54,11 +54,11 @@ services:
   #   settings and connection to the frontend service.
   www-example-com:
     restart: always
-    image: www-example-com
-    build: ./Services/www.example.com
+    image: nginx
     container_name: www-example-com
     volumes:
-      - "./Persistent/www.example.com/conf.d:/etc/nginx/conf.d"
+      - "./Persistent/www.example.com/conf.d:/etc/nginx/conf.d:ro"
+      - "./Services/www.example.com:/usr/share/nginx/html:ro"
     environment:
       - VIRTUAL_HOST=example.com, www.example.com
       - VIRTUAL_NETWORK=nginx-proxy
